@@ -16,7 +16,7 @@ some VRs in the org … some active, some inactive
 execute STEP 1 will use the Tooling API to find active VRs and store their data in Cases   
 ![step1](https://github.com/HeikoKramer/sfhcks/blob/master/img/step1.png)
 
-see … three cases created in demo org (testes with 39 in Sandbox)  
+see … three cases created in demo org (testes with 39 Validation Rules in Sandbox)  
 ![cases](https://github.com/HeikoKramer/sfhcks/blob/master/img/cases.png)
 
 The VR's enpoint get stored in the Subject, the Metadata in the Description of the Case  
