@@ -36,6 +36,6 @@ when all loads are done, STEP 3 can be executed to restore the prior VC state
 ![step3](https://github.com/HeikoKramer/sfhcks/blob/master/img/step3.png)
 
 prior active Validation Rules get switched ON  
-![vrWhile](https://github.com/HeikoKramer/sfhcks/blob/master/img/vrWhile.png)
+![vrAfter](https://github.com/HeikoKramer/sfhcks/blob/master/img/vrAfter.png)
 
 those data storage cases get deleted at the end of STEP 3 
