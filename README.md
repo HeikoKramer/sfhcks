@@ -1,12 +1,13 @@
 # Salesforce H@cks
 *stuff I'd like to keep …* 
 
-## Validation Rule ON/OFF ~/ValidationRuleOnOff.cls
+## ~/ValidationRuleOnOff.cls
 Trouble with some Validation Rules while loading data into a Sandbox …  
 So why not switch them all off and back on again when we're done?
 
-This is a 3 Steps anonymous Apex ON/OFF switch for Validation Rules  
+All we need is this 3 Steps **anonymous Apex ON/OFF switch for Validation Rules**  
 ![comments](https://github.com/HeikoKramer/sfhcks/blob/master/img/comments.png)
+
 
 ### Step 1 
 some VRs in the org … some active, some inactive  
@@ -21,12 +22,14 @@ see … three cases created in demo org (testes with 39 in Sandbox)
 The VR's enpoint get stored in the Subject, the Metadata in the Description of the Case  
 ![caseDetail](https://github.com/HeikoKramer/sfhcks/blob/master/img/caseDetail.png)
 
+
 ### Step 2
 execute STEP 2 change Metadata active:false and perform a PATCH method call on all VRs  
 ![step2](https://github.com/HeikoKramer/sfhcks/blob/master/img/step2.png)
 
 All Validation Rules get switched OFF  
 ![vrWhile](https://github.com/HeikoKramer/sfhcks/blob/master/img/vrWhile.png)
+
 
 ### Step 3
 when all loads are done, STEP 3 can be executed to restore the prior VC state  
