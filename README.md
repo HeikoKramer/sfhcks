@@ -1,13 +1,13 @@
 # Salesforce H@cks
 *stuff I'd like to keep …* 
 
-## ~/EmailAlertReceipients.cls
+## ~/EmailAlertRecipients.cls
 Had to find all Email Alerts which where sending mails to a certain public group.  
-Wrote this Anonymous Apex to find a receipent in alert metadata using Tooling API.
+Wrote this Anonymous Apex to find a recipent in alert metadata using Tooling API.
 
 ### How to execute 
-Just specify your receipient in line 23 and fire >> results in the debug log
-![receipient](https://github.com/HeikoKramer/sfhcks/blob/master/img/receipient.png)
+Just specify your recipient in line 23 and fire >> results in the debug log
+![recipient](https://github.com/HeikoKramer/sfhcks/blob/master/img/recipient.png)
 
 ## ~/ValidationRuleOnOff.cls
 Trouble with some Validation Rules while loading data into a Sandbox …  
