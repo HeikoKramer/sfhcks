@@ -1,6 +1,24 @@
 # Salesforce H@cks
 *stuff I'd like to keep …* 
 
+## ~/ObjectNameAndLabel.cls
+The one dude copied only the Labels the other dude asked me for the names …  
+This sends you an email with API Names & Labels of those org's objects. 
+
+Replace that variable with your mail address:  
+![mail](https://github.com/HeikoKramer/sfhcks/blob/master/img/mail.png)
+
+### HTML Version
+Quick way to get table format  >> it will send you those values tagged as html table.  
+Copy mail body into texteditor >> save as .html file >> open in browser  
+Then copy it into Excel or wherever you need it.    
+![html](https://github.com/HeikoKramer/sfhcks/blob/master/img/html.png)
+
+### Plain Text Version
+If you just need a quick overview on those org's object names and labels.
+This will send you a text-list of those Names & Labels readable from your mail client.
+![plain](https://github.com/HeikoKramer/sfhcks/blob/master/img/plain.png)
+
 ## ~/EmailAlertRecipients.cls
 Had to find all Email Alerts which where sending mails to a certain public group.  
 Wrote this Anonymous Apex to find a recipent in alert metadata using Tooling API.
