@@ -1,9 +1,9 @@
 /**
 * ─────────────────────────────────────────────────────────────────────────────────────────────────┐
-* Anonymous Apex to sitch to find all Email Alerts for a certain Receipient
+* Anonymous Apex to sitch to find all Email Alerts for a certain recipient
 *
 * Executing Steps:
-* * [Step 1:] replace "alertRecipient" variable below with the receipient your interested in, execute
+* * [Step 1:] replace "alertRecipient" variable below with the recipient your interested in, execute
 * * [Step 2:] check debug log to see the Alert Ids 
 * ──────────────────────────────────────────────────────────────────────────────────────────────────
 * @author         Heiko Krämer   <sfhcks@myforce.net>
@@ -12,15 +12,15 @@
 */
 
 
-/* The receipient is stored in the Metadata of each WorkflowAlert.
-** There are many receipient types, you should check how the output for your searched type looks like.
-** To check the output copy the Id of an alert with that receipient type
+/* The recipient is stored in the Metadata of each WorkflowAlert.
+** There are many recipient types, you should check how the output for your searched type looks like.
+** To check the output copy the Id of an alert with that recipient type
 ** and paste it at the end of the link below. Check result with >>Workbench REST Explorer<<.
 ** services/data/v48.0/tooling/query/?q=Select+Metadata+from+WorkflowAlert+Where+Id+=+''
 ** Example type "Group": recipient: Some_Group_Name
 ** Example type "User" : recipient: some.name@some-domain.com */
  
-String alertRecipient = 'some.name@some-domain.com'; // <-- place receipient here
+String alertRecipient = 'some.name@some-domain.com'; // <-- place recipient here
 
 List<Id> listOfworkflowAlertIds = new List<Id>();
 Integer workflowAlertsFound     = 0; 
@@ -72,7 +72,7 @@ for (Id workflowAlertId : listOfworkflowAlertIds) {
    
     String body = hresp.getBody();
    
-    // check if the response body contains our searched receipient -> if so show the Alert Id
+    // check if the response body contains our searched recipient -> if so show the Alert Id
     if (body.contains(alertRecipient)) {
         system.debug('This Alert is send to ' + alertRecipient + ': ' + workflowAlertId);
     }
