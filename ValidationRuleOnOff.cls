@@ -10,7 +10,7 @@
 * All prior active Validation Rules will be re-activated. 
 * Data Storage Cases will be delted at the end of Step 3.
 * ──────────────────────────────────────────────────────────────────────────────────────────────────
-* @author         Heiko Krämer   <ValidationRuleOnOff@myforce.net>
+* @author         Heiko Krämer   <sfhcks@myforce.net>
 * @created        2020-07-26
 * ─────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
