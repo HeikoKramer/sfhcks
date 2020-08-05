@@ -20,14 +20,15 @@
 */
 
 String sourceUserId = ''; // <-- Place Id of user WITH permissions here
- 
+String targetUserId = ''; // <-- Place Id of user WITHOUT permissions here
+
 // retrieve all permission set / permission set group assignments from source user
 List<PermissionSetAssignment> sourceAssignments = new List<PermissionSetAssignment>([SELECT AssigneeId, PermissionSetGroupId, PermissionSetId
                                                                                        FROM PermissionSetAssignment
                                                                                       WHERE AssigneeId = :sourceUserId
                                                                                         AND PermissionSet.IsOwnedByProfile = false]);
  
-String targetUserId = ''; // <-- Place Id of user WITHOUT permissions here
+// list to store target user assignments
 List<PermissionSetAssignment> targetAssignments = new List<PermissionSetAssignment>();
  
 // loop through source user assignments -> change AssigneeId to targetUserId -> add modified assignment to list
@@ -40,4 +41,5 @@ for (PermissionSetAssignment sourceAssignment : sourceAssignments){
  
     targetAssignments.add(targetAssignment);                                   
 }
-insert targetAssignments; // inserting the list will add the assignments for the target user into the org
+// inserting the list will add the assignments for the target user into the org
+insert targetAssignments; 
