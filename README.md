@@ -2,14 +2,11 @@
 *stuff I'd like to keep …* 
 
 ## ~/PermissionSetAssignment.cls
-Assigne Permission Sets from one User to an other
-
-Place source and target user IDs and execute anonymous.  
+Place source and target user IDs and execute anonymous to assigne Permission Sets from one User to an other.
 ![PermissionSetAssignment](https://github.com/HeikoKramer/sfhcks/blob/master/img/psa.png)
 
 ## ~/ObjectNameAndLabel.cls
 This sends you an email with API Names & Labels of those org's objects. 
-
 Replace that variable with your mail address:  
 ![mail](https://github.com/HeikoKramer/sfhcks/blob/master/img/mail.png)
 
