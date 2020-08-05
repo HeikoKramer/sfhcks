@@ -34,9 +34,9 @@ List<PermissionSetAssignment> targetAssignments = new List<PermissionSetAssignme
 for (PermissionSetAssignment sourceAssignment : sourceAssignments){
    
     PermissionSetAssignment targetAssignment = new PermissionSetAssignment();
-    targetAssignment.AssigneeId           = targetUserId;
-    targetAssignment.PermissionSetGroupId = sourceAssignment.PermissionSetGroupId;
-    targetAssignment.PermissionSetId      = sourceAssignment.PermissionSetId;
+    targetAssignment.AssigneeId              = targetUserId;
+    targetAssignment.PermissionSetGroupId    = sourceAssignment.PermissionSetGroupId;
+    targetAssignment.PermissionSetId         = sourceAssignment.PermissionSetId;
  
     targetAssignments.add(targetAssignment);                                   
 }
