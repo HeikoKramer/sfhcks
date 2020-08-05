@@ -4,6 +4,15 @@
 *
 * Executing Steps:
 * * [Step 1:] enter IDs from source and target user, execute
+*
+* Known Issues:
+* - Error if target user has already an assignemnt for at least one Permission Set from source
+* - Error if target user is inactive
+* - Error is target user profile doesn't match PermissionSet.LicenseId
+* Fine working scope: New user without any permissions and same profile as source
+*
+* Idea: PermissionSet Balancer for Teams
+* Set of user ids -> Set of all assignments of those ids -> add missing assignments to all users
 * ──────────────────────────────────────────────────────────────────────────────────────────────────
 * @author         Heiko Krämer   <sfhcks@myforce.net>
 * @created        2020-08-05
