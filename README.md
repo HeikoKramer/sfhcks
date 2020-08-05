@@ -1,8 +1,10 @@
 # Salesforce H@cks
 *stuff I'd like to keep …* 
 
+## ~/PermissionSetAssignment.cls
+Assigne Permission Sets from one User to an other
+
 ## ~/ObjectNameAndLabel.cls
-The one dude copied only the Labels the other dude asked me for the names …  
 This sends you an email with API Names & Labels of those org's objects. 
 
 Replace that variable with your mail address:  
