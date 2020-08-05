@@ -4,6 +4,9 @@
 ## ~/PermissionSetAssignment.cls
 Assigne Permission Sets from one User to an other
 
+Place source and target user IDs and execute anonymous.  
+![PermissionSetAssignment](https://github.com/HeikoKramer/sfhcks/blob/master/img/psa.png)
+
 ## ~/ObjectNameAndLabel.cls
 This sends you an email with API Names & Labels of those org's objects. 
 
