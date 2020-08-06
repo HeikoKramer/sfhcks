@@ -6,9 +6,13 @@
 * * [Step 1:] enter IDs from source and target user, execute
 *
 * Known Issues:
-* - Error if no available permission set license
-* - Error is target user profile doesn't match PermissionSet.LicenseId
+* - Error if no available permission set license -> fixed with "AND PermissionSet.IsCustom = true"
+* tbd: check for available licenses / assignemnts 
+*
+* - Error if target user profile doesn't match PermissionSet.LicenseId
 * tbd: Id userLicenseId = new Id([SELECT Profile.UserLicenseId FROM User WHERE Id = :targetUserId]);
+*
+* tbd: testing with Permission Set Group
 *
 * Idea: PermissionSet Balancer for Teams
 * Set of user ids -> Set of all assignments of those ids -> add missing assignments to all users
