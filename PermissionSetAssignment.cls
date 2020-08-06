@@ -34,7 +34,7 @@ List<PermissionSetAssignment> sourceAssignments = new List<PermissionSetAssignme
 system.debug('sourceAssignments: ' + sourceAssignments);
 system.debug('sourceAssignments.size(): ' + sourceAssignments.size());
 
-// retriev existig assignments from target user 
+// retrieve existig assignments from target user 
 List<PermissionSetAssignment> existingTargetAssignments = new List<PermissionSetAssignment>([SELECT PermissionSetGroupId, PermissionSetId
                                                                                                FROM PermissionSetAssignment
                                                                                               WHERE AssigneeId = :targetUserId
