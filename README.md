@@ -1,7 +1,7 @@
 # Salesforce H@cks
 *stuff I'd like to keep …* 
 
-## ~/PermissionSetAssignment.cls
+## ~/PermissionSetAssignment.cls (work in progress)
 Place source and target user IDs and execute anonymous to assigne Permission Sets from one User to an other.
 ![PermissionSetAssignment](https://github.com/HeikoKramer/sfhcks/blob/master/img/psa.png)
 
