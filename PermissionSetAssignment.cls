@@ -6,10 +6,9 @@
 * * [Step 1:] enter IDs from source and target user, execute
 *
 * Known Issues:
-* - Error if target user has already an assignemnt for at least one Permission Set from source
-* - Error if target user is inactive
+* - Error if no available permission set license
 * - Error is target user profile doesn't match PermissionSet.LicenseId
-* Fine working scope: New user without any permissions and same profile as source
+* tbd: Id userLicenseId = new Id([SELECT Profile.UserLicenseId FROM User WHERE Id = :targetUserId]);
 *
 * Idea: PermissionSet Balancer for Teams
 * Set of user ids -> Set of all assignments of those ids -> add missing assignments to all users
@@ -19,27 +18,55 @@
 * ─────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 
-String sourceUserId = ''; // <-- Place Id of user WITH permissions here
-String targetUserId = ''; // <-- Place Id of user WITHOUT permissions here
+String sourceUserId = ''; // <-- Place Id of user WITH permissions here (active or inactive user)
+String targetUserId = ''; // <-- Place Id of user WITHOUT permissions here (only active user)
 
 // retrieve all permission set / permission set group assignments from source user
 List<PermissionSetAssignment> sourceAssignments = new List<PermissionSetAssignment>([SELECT AssigneeId, PermissionSetGroupId, PermissionSetId
                                                                                        FROM PermissionSetAssignment
                                                                                       WHERE AssigneeId = :sourceUserId
-                                                                                        AND PermissionSet.IsOwnedByProfile = false]);
+                                                                                        AND PermissionSet.IsOwnedByProfile = false
+                                                                                        AND PermissionSet.IsCustom = true]);
+system.debug('sourceAssignments: ' + sourceAssignments);
+system.debug('sourceAssignments.size(): ' + sourceAssignments.size());
+
+// retriev existig assignments from target user 
+List<PermissionSetAssignment> existingTargetAssignments = new List<PermissionSetAssignment>([SELECT PermissionSetGroupId, PermissionSetId
+                                                                                               FROM PermissionSetAssignment
+                                                                                              WHERE AssigneeId = :targetUserId
+                                                                                                AND PermissionSet.IsOwnedByProfile = false]);
+system.debug('existingTargetAssignments: ' + existingTargetAssignments);
+system.debug('existingTargetAssignments.size(): ' + existingTargetAssignments.size());
+
+
+List<Id> existingTargetPermSetIds = new List<Id>();
+for (PermissionSetAssignment psa : existingTargetAssignments) {
+    if (psa.PermissionSetId != null) {
+        existingTargetPermSetIds.add(psa.PermissionSetId);
+    }
+    if (psa.PermissionSetGroupId != null) {
+        existingTargetPermSetIds.add(psa.PermissionSetGroupId);
+    }
+}
+system.debug('existingTargetPermSetIds: ' + existingTargetPermSetIds);
+system.debug('existingTargetPermSetIds.size(): ' + existingTargetPermSetIds.size());
+
  
 // list to store target user assignments
-List<PermissionSetAssignment> targetAssignments = new List<PermissionSetAssignment>();
+List<PermissionSetAssignment> newTargetAssignments = new List<PermissionSetAssignment>();
  
 // loop through source user assignments -> change AssigneeId to targetUserId -> add modified assignment to list
 for (PermissionSetAssignment sourceAssignment : sourceAssignments){
-   
-    PermissionSetAssignment targetAssignment = new PermissionSetAssignment();
-    targetAssignment.AssigneeId              = targetUserId;
-    targetAssignment.PermissionSetGroupId    = sourceAssignment.PermissionSetGroupId;
-    targetAssignment.PermissionSetId         = sourceAssignment.PermissionSetId;
- 
-    targetAssignments.add(targetAssignment);                                   
+    
+    if(existingTargetPermSetIds.contains(sourceAssignment.PermissionSetId)      != true && 
+       existingTargetPermSetIds.contains(sourceAssignment.PermissionSetGroupId) != true ){
+        
+            PermissionSetAssignment targetAssignment = new PermissionSetAssignment();
+            targetAssignment.AssigneeId              = targetUserId;
+            targetAssignment.PermissionSetGroupId    = sourceAssignment.PermissionSetGroupId;
+            targetAssignment.PermissionSetId         = sourceAssignment.PermissionSetId;
+        
+            newTargetAssignments.add(targetAssignment);
+    }
 }
-// inserting the list will add the assignments for the target user into the org
-insert targetAssignments; 
+insert newTargetAssignments; // inserting the list will add the assignments for the target user into the org
