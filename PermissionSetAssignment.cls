@@ -30,7 +30,7 @@ List<PermissionSetAssignment> sourceAssignments = new List<PermissionSetAssignme
                                                                                        FROM PermissionSetAssignment
                                                                                       WHERE AssigneeId = :sourceUserId
                                                                                         AND PermissionSet.IsOwnedByProfile = false
-                                                                                        AND PermissionSet.IsCustom = true]);
+                                                                                        AND PermissionSet.IsCustom = true]); // excludes license based 
 system.debug('sourceAssignments: ' + sourceAssignments);
 system.debug('sourceAssignments.size(): ' + sourceAssignments.size());
 
@@ -42,7 +42,7 @@ List<PermissionSetAssignment> existingTargetAssignments = new List<PermissionSet
 system.debug('existingTargetAssignments: ' + existingTargetAssignments);
 system.debug('existingTargetAssignments.size(): ' + existingTargetAssignments.size());
 
-
+// add id values of existing permission sets to a list for later comparison
 List<Id> existingTargetPermSetIds = new List<Id>();
 for (PermissionSetAssignment psa : existingTargetAssignments) {
     if (psa.PermissionSetId != null) {
@@ -54,12 +54,11 @@ for (PermissionSetAssignment psa : existingTargetAssignments) {
 }
 system.debug('existingTargetPermSetIds: ' + existingTargetPermSetIds);
 system.debug('existingTargetPermSetIds.size(): ' + existingTargetPermSetIds.size());
-
  
 // list to store target user assignments
 List<PermissionSetAssignment> newTargetAssignments = new List<PermissionSetAssignment>();
  
-// loop through source user assignments -> change AssigneeId to targetUserId -> add modified assignment to list
+// loop through source user assignments -> check if ps already assigned -> add new assignments to list
 for (PermissionSetAssignment sourceAssignment : sourceAssignments){
     
     if(existingTargetPermSetIds.contains(sourceAssignment.PermissionSetId)      != true && 
@@ -73,4 +72,6 @@ for (PermissionSetAssignment sourceAssignment : sourceAssignments){
             newTargetAssignments.add(targetAssignment);
     }
 }
+system.debug('newTargetAssignments: ' + newTargetAssignments);
+system.debug('newTargetAssignments.size(): ' + newTargetAssignments.size());
 insert newTargetAssignments; // inserting the list will add the assignments for the target user into the org
