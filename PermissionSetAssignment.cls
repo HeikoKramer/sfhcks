@@ -31,7 +31,6 @@ List<PermissionSetAssignment> sourceAssignments = new List<PermissionSetAssignme
 system.debug('sourceAssignments: ' + sourceAssignments);
 system.debug('sourceAssignments.size(): ' + sourceAssignments.size());
 
-
 // retriev existig assignments from target user 
 List<PermissionSetAssignment> existingTargetAssignments = new List<PermissionSetAssignment>([SELECT PermissionSetGroupId, PermissionSetId
                                                                                                FROM PermissionSetAssignment
@@ -77,4 +76,5 @@ for (PermissionSetAssignment sourceAssignment : sourceAssignments){
 }
 system.debug('newTargetAssignments: ' + newTargetAssignments);
 system.debug('newTargetAssignments.size(): ' + newTargetAssignments.size());
+
 insert newTargetAssignments; // inserting the list will add the assignments for the target user into the org
