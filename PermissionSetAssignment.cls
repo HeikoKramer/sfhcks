@@ -6,11 +6,8 @@
 * * [Step 1:] enter IDs from source and target user, execute
 *
 * Known Issues:
-* - Error if no available permission set license -> fixed with "AND PermissionSet.IsCustom = true"
-* tbd: check for available licenses / assignemnts 
-*
-* - Error if target user profile doesn't match PermissionSet.LicenseId
-* tbd: Id userLicenseId = new Id([SELECT Profile.UserLicenseId FROM User WHERE Id = :targetUserId]);
+* - license based permission sets excludet  -> "AND PermissionSet.IsCustom = true"
+* tbd: check for available licenses / assign license to target user
 *
 * tbd: testing with Permission Set Group
 *
@@ -26,13 +23,14 @@ String sourceUserId = ''; // <-- Place Id of user WITH permissions here (active 
 String targetUserId = ''; // <-- Place Id of user WITHOUT permissions here (only active user)
 
 // retrieve all permission set / permission set group assignments from source user
-List<PermissionSetAssignment> sourceAssignments = new List<PermissionSetAssignment>([SELECT AssigneeId, PermissionSetGroupId, PermissionSetId
+List<PermissionSetAssignment> sourceAssignments = new List<PermissionSetAssignment>([SELECT AssigneeId, PermissionSetGroupId, PermissionSetId, PermissionSet.LicenseId
                                                                                        FROM PermissionSetAssignment
                                                                                       WHERE AssigneeId = :sourceUserId
                                                                                         AND PermissionSet.IsOwnedByProfile = false
                                                                                         AND PermissionSet.IsCustom = true]); // excludes license based 
 system.debug('sourceAssignments: ' + sourceAssignments);
 system.debug('sourceAssignments.size(): ' + sourceAssignments.size());
+
 
 // retriev existig assignments from target user 
 List<PermissionSetAssignment> existingTargetAssignments = new List<PermissionSetAssignment>([SELECT PermissionSetGroupId, PermissionSetId
@@ -57,12 +55,17 @@ system.debug('existingTargetPermSetIds.size(): ' + existingTargetPermSetIds.size
  
 // list to store target user assignments
 List<PermissionSetAssignment> newTargetAssignments = new List<PermissionSetAssignment>();
- 
+
+// get target user license Id to later exclude if not compatible
+List<User> targetUserLicense = [SELECT Profile.UserLicenseId FROM User WHERE Id = :targetUserId];
+String targetUserLicenseId   = targetUserLicense.get(0).Profile.UserLicenseId;
+
 // loop through source user assignments -> check if ps already assigned -> add new assignments to list
 for (PermissionSetAssignment sourceAssignment : sourceAssignments){
     
     if(existingTargetPermSetIds.contains(sourceAssignment.PermissionSetId)      != true && 
-       existingTargetPermSetIds.contains(sourceAssignment.PermissionSetGroupId) != true ){
+       existingTargetPermSetIds.contains(sourceAssignment.PermissionSetGroupId) != true &&
+       (sourceAssignment.PermissionSet.LicenseId == null || sourceAssignment.PermissionSet.LicenseId == targetUserLicenseId)){
         
             PermissionSetAssignment targetAssignment = new PermissionSetAssignment();
             targetAssignment.AssigneeId              = targetUserId;
