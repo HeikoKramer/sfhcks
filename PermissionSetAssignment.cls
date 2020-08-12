@@ -4,12 +4,11 @@
 *
 * Executing Steps:
 * * [Step 1:] enter IDs from source and target user, execute
+* * [Step 2:] check debugs to see which assignments where successful and which not
 *
 * Known Issues:
 * - license based permission sets excludet  -> "AND PermissionSet.IsCustom = true"
 * tbd: check for available licenses / assign license to target user
-*
-* tbd: testing with Permission Set Group
 *
 * Idea: PermissionSet Balancer for Teams
 * Set of user ids -> Set of all assignments of those ids -> add missing assignments to all users
@@ -31,7 +30,7 @@ List<PermissionSetAssignment> sourceAssignments = new List<PermissionSetAssignme
 system.debug('sourceAssignments: ' + sourceAssignments);
 system.debug('sourceAssignments.size(): ' + sourceAssignments.size());
 
-// retriev existig assignments from target user 
+// retrieve existig assignments from target user 
 List<PermissionSetAssignment> existingTargetAssignments = new List<PermissionSetAssignment>([SELECT PermissionSetGroupId, PermissionSetId
                                                                                                FROM PermissionSetAssignment
                                                                                               WHERE AssigneeId = :targetUserId
@@ -66,10 +65,16 @@ for (PermissionSetAssignment sourceAssignment : sourceAssignments){
        existingTargetPermSetIds.contains(sourceAssignment.PermissionSetGroupId) != true &&
        (sourceAssignment.PermissionSet.LicenseId == null || sourceAssignment.PermissionSet.LicenseId == targetUserLicenseId)){
         
-            PermissionSetAssignment targetAssignment = new PermissionSetAssignment();
-            targetAssignment.AssigneeId              = targetUserId;
-            targetAssignment.PermissionSetGroupId    = sourceAssignment.PermissionSetGroupId;
-            targetAssignment.PermissionSetId         = sourceAssignment.PermissionSetId;
+            PermissionSetAssignment targetAssignment   = new PermissionSetAssignment();
+            targetAssignment.AssigneeId                = targetUserId;
+            // If PermissionSetGroup -> PermissionSetId must set null or insert will fail
+            if (sourceAssignment.PermissionSetGroupId != null){
+                 targetAssignment.PermissionSetGroupId = sourceAssignment.PermissionSetGroupId;
+                 targetAssignment.PermissionSetId      = null;
+            } else {
+                targetAssignment.PermissionSetGroupId  = sourceAssignment.PermissionSetGroupId;
+                targetAssignment.PermissionSetId       = sourceAssignment.PermissionSetId;
+                }
         
             newTargetAssignments.add(targetAssignment);
     }
@@ -77,4 +82,23 @@ for (PermissionSetAssignment sourceAssignment : sourceAssignments){
 system.debug('newTargetAssignments: ' + newTargetAssignments);
 system.debug('newTargetAssignments.size(): ' + newTargetAssignments.size());
 
-insert newTargetAssignments; // inserting the list will add the assignments for the target user into the org
+// inserting newTargetAssignments will add target user assignments into the org
+// no exption will be thrown due to Boolean allOrNone false
+// successful || non-successful will show in debugs
+Database.SaveResult[] saveResultList = Database.insert(newTargetAssignments, false);
+
+// Iterate through each returned result
+for (Database.SaveResult sr : saveResultList) {
+    if (sr.isSuccess()) {
+        // Operation was successful, so get the ID of the record that was processed
+        System.debug('Successfully inserted assignmets: ' + sr.getId());
+    }
+    else {
+         // Operation failed, so get all errors                
+         for (Database.Error err : sr.getErrors()) {
+             System.debug('The following error has occurred.');                    
+             System.debug(err.getStatusCode() + ': ' + err.getMessage());
+             //System.debug('This assignment caused the error: ' + err.getDmlId());
+        }
+    }
+}
