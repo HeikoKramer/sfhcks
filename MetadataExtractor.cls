@@ -1,6 +1,9 @@
 // WORK IN PROGRESS
-// Tooling API Call to receive IDs for all active ValidationRules
-String toolingSOQL = '/services/data/v48.0/tooling/query/?q=Select+Id+From+ValidationRule+Where+Active+=+true';
+
+String objectName = 'ValidationRule'; // <-- Place the API Name of the Object you would like to query here
+
+// Tooling API Call to receive IDs for all active Objects
+String toolingSOQL = '/services/data/v48.0/tooling/query/?q=Select+Id+From+' + objectName; // + '+Where+Active+=+true';
 String baseURL     = URL.getSalesforceBaseUrl().toExternalForm();
 String endpoint    = baseURL + toolingSOQL;
 
