@@ -1,26 +1,32 @@
 // WORK IN PROGRESS
-
-String objectName = 'ValidationRule'; // <-- Place the API Name of the Object you would like to query here
+String objectName = 'ApexClass'; // <-- Place the API Name of the Object you would like to query here
 
 // Tooling API Call to receive IDs for all active Objects
 String toolingSOQL = '/services/data/v48.0/tooling/query/?q=Select+Id+From+' + objectName; // + '+Where+Active+=+true';
-String baseURL     = URL.getSalesforceBaseUrl().toExternalForm();
-String endpoint    = baseURL + toolingSOQL;
 
-Http NewReq        = new Http();
-HttpRequest hreq   = new HttpRequest();
+String apiResponseBody = apiResponse();
+system.debug('apiResponseBody: ' + apiResponseBody);
 
-hreq.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());
-hreq.setTimeout(60000);
-hreq.setEndpoint(endPoint);
-hreq.setMethod('GET');
-HttpResponse hresp = NewReq.send(hreq);
+public static String apiResponse() { 
+    String baseURL     = URL.getSalesforceBaseUrl().toExternalForm();
+    String endpoint    = baseURL + toolingSOQL;
+    System.debug('endpoint: ' + endpoint);
+    
+    Http NewReq        = new Http();
+    HttpRequest hreq   = new HttpRequest();
+    
+    hreq.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());
+    hreq.setTimeout(60000);
+    hreq.setEndpoint(endPoint);
+    hreq.setMethod('GET');
+    HttpResponse hresp = NewReq.send(hreq);
+    
+    String body = hresp.getBody();
+    system.debug('ResponseBody: ' + body);
+    return body; 
+}
 
-String body = hresp.getBody();
-system.debug('ResponseBody' + body);
-
-
-Map<String, Object> toolingApiResponseMap = (Map<String, Object>)JSON.deserializeUntyped(body);
+Map<String, Object> toolingApiResponseMap = (Map<String, Object>)JSON.deserializeUntyped(apiResponseBody);
 system.debug('toolingApiResponseMap: ' + toolingApiResponseMap);
 // toolingApiResponseMap: {done=true, entityTypeName=ValidationRule, queryLocator=null, records=({Id=03d5I000000D8y6QAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D8y6QAC}}, {Id=03d5I000000D91yQAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D91yQAC}}, {Id=03d5I000000D923QAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D923QAC}});
 
@@ -56,42 +62,26 @@ while (i <= numberOfIndex) {
 system.debug('idUrlMap: ' + idUrlMap);
 
 
+Map<Id, Object> idMetadataMap = new Map<Id, Object>();
 
-/* EXAMPLE
-String jsonInput = '{\n' +
-    ' "description" :"An appliance",\n' +
-    ' "accessories" : [ "powerCord", ' + 
-      '{ "right":"door handle1", ' + 
-        '"left":"door handle2" } ],\n' +
-    ' "dimensions" : ' + 
-      '{ "height" : 5.5 , ' + 
-        '"width" : 3.0 , ' + 
-        '"depth" : 2.2 },\n' +
-    ' "type" : null,\n' +
-    ' "inventory" : 2000,\n' +
-    ' "price" : 1023.45,\n' +
-    ' "isShipped" : true,\n' +
-    ' "modelNumber" : "123"\n' +
-    '}';
+for (Id key : idUrlMap.keySet()) {
+    toolingSOQL = '/services/data/v48.0/tooling/query/?q=Select+Metadata+From+' + objectName + '+Where+Id+=\'' + key + '\'';
+    String metadataResponseBody = apiResponse();
+    system.debug('metadataResponseBody: ' + metadataResponseBody);
     
-Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(jsonInput);
-// System.assertEquals('An appliance', m.get('description'));
-
-List<Object> a = (List<Object>)m.get('accessories');
-// System.assertEquals('powerCord', a[0]); 
-
-Map<String, Object> a2 = (Map<String, Object>)a[1];
-// System.assertEquals('door handle1', a2.get('right'));
-// System.assertEquals('door handle2', a2.get('left'));
-
-Map<String, Object> dim = (Map<String, Object>)m.get('dimensions');
-system.debug('dim: ' + dim);
-// System.assertEquals(5.5, dim.get('height'));
-// System.assertEquals(3.0, dim.get('width'));
-// System.assertEquals(2.2, dim.get('depth'));
-// System.assertEquals(null, m.get('type'));
-// System.assertEquals(2000, m.get('inventory'));
-// System.assertEquals(1023.45, m.get('price'));
-// System.assertEquals(true, m.get('isShipped'));
-// System.assertEquals('123', m.get('modelNumber'));
-*/ 
+    /*1*/ 
+    Map<String, Object> metadataApiResponseMap = (Map<String, Object>)JSON.deserializeUntyped(metadataResponseBody);
+    system.debug('metadataApiResponseMap: ' + metadataApiResponseMap);
+    
+    /*2*/ 
+    List<Object> metadataRecordsList = (List<Object>)metadataApiResponseMap.get('records');
+    system.debug('metadataRecordsList: ' + metadataRecordsList);
+    
+    /*3*/ 
+    Map<String, Object> metadataRecordMap = (Map<String, Object>)metadataRecordsList[0];
+    system.debug('metadataRecordMap: ' + metadataRecordMap);
+    
+    idMetadataMap.put(key, metadataRecordMap.get('Metadata'));
+    
+}
+system.debug('idMetadataMap: ' + idMetadataMap);
