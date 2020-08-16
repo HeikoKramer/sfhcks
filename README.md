@@ -1,6 +1,9 @@
 # Salesforce H@cks
 *stuff I'd like to keep …* 
 
+## ~/MetadataExtractor.cls (work in progress)
+Not sure yet where this leads to. Rough plan is to have some sort of standard procedure to extract metadata information via the Tooling API.
+
 ## ~/PermissionSetAssignment.cls (work in progress)
 Place source and target user IDs and execute anonymous to assigne Permission Sets from one User to an other.
 ![PermissionSetAssignment](https://github.com/HeikoKramer/sfhcks/blob/master/img/psa.png)
