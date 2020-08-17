@@ -1,4 +1,23 @@
-// WORK IN PROGRESS
+/**
+* ──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+* Anonymous Apex to extract Metadata Information from Objects supported by Tooling API:
+* https://developer.salesforce.com/docs/atlas.en-us.api_tooling.meta/api_tooling/reference_objects_list.htm
+*
+* Output is a Map<Id, Object> idMetadataMap --> RecordId followed by the Metadata.
+* Example(ApexClass) idMetadataMap: {01p5I0000004mI7QAI={apiVersion=48.0, packageVersions=(), status=Active, 
+* urls=null}, 01p5I0000004q14QAA={apiVersion=48.0, packageVersions=(), status=Active, urls=null}
+*
+* Usage: That map could be used to manipulate the metadata and update those values vie Tooling API.
+*
+* Known Issues: 
+* - no exception handling yet, was just earlier running into "too many calls" error
+* - - some sort of limit check shoul be implemented. 
+* ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+* @author         Heiko Krämer   <sfhcks@myforce.net>
+* @created        2020-08-16
+* ──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+*/
+
 String objectName = 'ApexClass'; // <-- Place the API Name of the Object you would like to query here
 
 // Tooling API Call to receive IDs for all active Objects
@@ -8,8 +27,8 @@ String apiResponseBody = apiResponse();
 system.debug('apiResponseBody: ' + apiResponseBody);
 
 public static String apiResponse() { 
-    String baseURL     = URL.getSalesforceBaseUrl().toExternalForm();
-    String endpoint    = baseURL + toolingSOQL;
+    String baseURL  = URL.getSalesforceBaseUrl().toExternalForm();
+    String endpoint = baseURL + toolingSOQL;
     System.debug('endpoint: ' + endpoint);
     
     Http NewReq        = new Http();
@@ -28,11 +47,9 @@ public static String apiResponse() {
 
 Map<String, Object> toolingApiResponseMap = (Map<String, Object>)JSON.deserializeUntyped(apiResponseBody);
 system.debug('toolingApiResponseMap: ' + toolingApiResponseMap);
-// toolingApiResponseMap: {done=true, entityTypeName=ValidationRule, queryLocator=null, records=({Id=03d5I000000D8y6QAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D8y6QAC}}, {Id=03d5I000000D91yQAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D91yQAC}}, {Id=03d5I000000D923QAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D923QAC}});
 
 List<Object> recordsList = (List<Object>)toolingApiResponseMap.get('records');
 system.debug('recordsList: ' + recordsList);
-// recordsList: ({Id=03d5I000000D8y6QAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D8y6QAC}}, {Id=03d5I000000D91yQAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D91yQAC}}, {Id=03d5I000000D923QAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D923QAC}})
 
 
 Integer numberOfRecords  = recordsList.size();
@@ -45,15 +62,13 @@ while (i <= numberOfIndex) {
     
     Map<String, Object> recordMap = (Map<String, Object>)recordsList[i];
     system.debug('recordMap: ' + recordMap);
-    // recordMap: {Id=03d5I000000D8y6QAC, attributes={type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D8y6QAC}}
-    system.debug('Id: '   + recordMap.get('Id'));
+    system.debug('Id: ' + recordMap.get('Id'));
     String recordId = String.valueOf(recordMap.get('Id'));
     
     Map<String, Object> recordValueMap = (Map<String, Object>)recordMap.get('attributes');
     system.debug('recordValueMap: ' + recordValueMap);
-    // recordValueMap: {type=ValidationRule, url=/services/data/v48.0/tooling/sobjects/ValidationRule/03d5I000000D8y6QAC}
-    system.debug('Type: ' + recordValueMap.get('type'));
-    system.debug('URL: '  + recordValueMap.get('url'));
+    system.debug('Type: '           + recordValueMap.get('type'));
+    system.debug('URL: '            + recordValueMap.get('url'));
     String recordUrl = String.valueOf(recordValueMap.get('url'));
     
     idUrlMap.put(recordId, recordUrl);
@@ -80,7 +95,7 @@ for (Id key : idUrlMap.keySet()) {
     /*3*/ 
     Map<String, Object> metadataRecordMap = (Map<String, Object>)metadataRecordsList[0];
     system.debug('metadataRecordMap: ' + metadataRecordMap);
-    
+
     idMetadataMap.put(key, metadataRecordMap.get('Metadata'));
     
 }
