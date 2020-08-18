@@ -1,21 +1,26 @@
 /**
 * ──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-* Anonymous Apex to extract Metadata Information from Objects supported by Tooling API:
+* Apex Class Name : MetadataExtructor
+* @author         : Heiko Krämer  <sfhcks@myforce.net>
+* @modifiedBy     : Christian Schwabe
+* @version        : 1.1 
+* @created        : 2020-08-16
+* ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+* @changes
+* v1.1 : Christian Schwabe
+* @modified  :  2020-08-17    
+* Avoid unnecessary casting, parse json to typesafe object with wrapper classes, 
+* outsource logic in smaller logical groups.
+*
+* @description
+* Apex Class to extract Metadata Information from Objects supported by Tooling API:
 * https://developer.salesforce.com/docs/atlas.en-us.api_tooling.meta/api_tooling/reference_objects_list.htm
 *
-* Output is a Map<Id, Object> idMetadataMap --> RecordId followed by the Metadata.
-* Example(ApexClass) idMetadataMap: {01p5I0000004mI7QAI={apiVersion=48.0, packageVersions=(), status=Active, 
-* urls=null}, 01p5I0000004q14QAA={apiVersion=48.0, packageVersions=(), status=Active, urls=null}
+* ------------------> Start execution with MetadataExtractor.start('ApexClass'); <------------------------
 *
-* Usage: That map could be used to manipulate the metadata and update those values vie Tooling API.
-* Usage #2: Start execution with MetadataExtractor.start('ApexClass');
-*
-* Known Issues: 
-* - no exception handling yet, was just earlier running into "too many calls" error
-* - - some sort of limit check shoul be implemented. 
 * ───────────────────────────────────────────────────────────────────────────────────────────────────────────
-* @author         Heiko Krämer   <sfhcks@myforce.net>
-* @created        2020-08-16
+* Things that need to be covered: proper exception handling, make http callout more generic, avoid too many 
+* callouts with batchjobs and persist response in custom object for further reporting/analysis.
 * ──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 */
 
