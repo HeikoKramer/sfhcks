@@ -15,8 +15,8 @@
 * @description
 * Apex Class to extract Metadata Information from Objects supported by Tooling API:
 * https://developer.salesforce.com/docs/atlas.en-us.api_tooling.meta/api_tooling/reference_objects_list.htm
-*
-* ------------------> Start execution with MetadataExtractor.start('ApexClass'); <------------------------
+* Execute by calling the start methode, hand over object name as a string. 
+* Example: MetadataExtractor.start('ApexClass'); 
 *
 * ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 * Things that need to be covered: proper exception handling, make http callout more generic, avoid too many 
@@ -27,7 +27,7 @@
 public class MetadataExtractor
 {
     /**
-     * @param metadataType -- <Description>
+     * @param metadataType -- <@description>
      */
     public static void start(String metadataType)
     {
@@ -109,27 +109,27 @@ public class MetadataExtractor
 
     public class QueryResponse
     {
-        public Integer size {get;set;}
-        public Integer totalSize {get;set;}
-        public String nextRecordsUrl {get;set;}
-        public String queryLocator {get;set;}
-        public String entityTypeName {get;set;}
+        public Integer size           {get;set;}
+        public Integer totalSize      {get;set;}
+        public String  nextRecordsUrl {get;set;}
+        public String  queryLocator   {get;set;}
+        public String  entityTypeName {get;set;}
         public List<MetadataExtractor.Record> records {get;set;}
 
         public QueryResponse(
             Integer size,
             Integer totalSize,
-            String nextRecordsUrl,
-            String queryLocator,
-            String entityTypeName,
+            String  nextRecordsUrl,
+            String  queryLocator,
+            String  entityTypeName,
             List<MetadataExtractor.Record> records
         ){
-            this.size = size;
-            this.totalSize = totalSize;
+            this.size           = size;
+            this.totalSize      = totalSize;
             this.nextRecordsUrl = nextRecordsUrl;
-            this.queryLocator = queryLocator;
+            this.queryLocator   = queryLocator;
             this.entityTypeName = entityTypeName;
-            this.records = records;
+            this.records        = records;
         }
     }
 
@@ -141,26 +141,26 @@ public class MetadataExtractor
         public Record(MetadataExtractor.Attributes attributes, String Id_x)
         {
             this.attributes = attributes;
-            this.Id_x = Id_x;
+            this.Id_x       = Id_x;
         }
     }
 
     public class Attributes
     {
         public String type {get;set;}
-        public String url {get;set;}
+        public String url  {get;set;}
 
         public Attributes(String type, String url)
         {
             this.type = type;
-            this.url = url;
+            this.url  = url;
         }
     }
 }
 
 
 
-/*
+/* ############ ORIGINAL VERSION ############# KEPT FOR COMPARISON #############
 String metadataType = 'ApexClass'; // <-- Place the API Name of the Object you would like to query here
 
 
