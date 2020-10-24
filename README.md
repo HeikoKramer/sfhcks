@@ -67,3 +67,35 @@ prior active Validation Rules get switched ON
 ![vrAfter](https://github.com/HeikoKramer/sfhcks/blob/master/img/vrAfter.png)
 
 those data storage cases get deleted at the end of STEP 3 
+
+## ~/ProcessBuilderOnOff.cls
+Trouble with some Processes while loading data into a Sandbox …  
+So why not switch them all off and back on again when we're done?
+
+### Step 1 
+some Processes in the org … some active, some inactive  
+![Process1](https://github.com/HeikoKramer/sfhcks/blob/master/img/Process1.png)
+
+execute STEP 1 will use the Tooling API to find and store active Processe data in Cases
+
+see … three processes created in demo org, two active one inactive
+![Process2](https://github.com/HeikoKramer/sfhcks/blob/master/img/Process2.png)
+
+The Process enpoint get stored in the Subject, the Metadata in the Description of the Case  
+![Process3](https://github.com/HeikoKramer/sfhcks/blob/master/img/Process3.png)
+
+
+### Step 2
+execute STEP 2 change Metadata activeVersionNumber:null and perform a PATCH method call  
+
+All Processes get switched OFF  
+![Process4](https://github.com/HeikoKramer/sfhcks/blob/master/img/Process4.png)
+
+
+### Step 3
+when you are done, execute STEP 3 to restore the prior Procces Builder state  
+
+only prior active Processes get switched back ON again
+![Process5](https://github.com/HeikoKramer/sfhcks/blob/master/img/Process5.png)
+
+those data storage cases get deleted at the end of STEP 3 
