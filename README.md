@@ -78,10 +78,10 @@ some Processes in the org … some active, some inactive
 
 execute STEP 1 will use the Tooling API to find and store active Processe data in Cases
 
-see … three processes created in demo org, two active one inactive
+see … two cases were created which hold the active process data
 ![Process2](https://github.com/HeikoKramer/sfhcks/blob/master/img/Process2.png)
 
-The Process enpoint get stored in the Subject, the Metadata in the Description of the Case  
+The Process enpoint is stored in the Subject, the Metadata in the Description of the Case  
 ![Process3](https://github.com/HeikoKramer/sfhcks/blob/master/img/Process3.png)
 
 
