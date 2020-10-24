@@ -1,6 +1,6 @@
 /**
 * ─────────────────────────────────────────────────────────────────────────────────────────────────┐
-* Anonymous Apex to sitch ON/OFF active Processes in Process Builder (Flow Definitions)
+* Anonymous Apex to switch ON/OFF active Processes in Process Builder (Flow Definitions)
 *
 * Execute Step 1-3 anonymous to 
 * * [Step 1:] find all active Processes in the org >> Store their Data in Cases

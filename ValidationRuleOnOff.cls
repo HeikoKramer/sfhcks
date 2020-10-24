@@ -1,6 +1,6 @@
 /**
 * ─────────────────────────────────────────────────────────────────────────────────────────────────┐
-* Anonymous Apex to sitch ON/OFF Validation Rules >> active:true / active:false) <<
+* Anonymous Apex to switch ON/OFF Validation Rules >> active:true / active:false) <<
 *
 * Execute Step 1-3 anonymous to 
 * * [Step 1:] find all active Validation Rules in the org >> Store their Data in Cases
