@@ -7,14 +7,15 @@ I have an other Salesforce related repo for the [command line stuff](https://git
 The purpose of my [on-/off switch scripts](https://github.com/HeikoKramer/sfhcks/tree/master/OnOffSwitches) was a full sandbox replacement project. <br> 
 We basically loaded production org backup into a partial sandbox via multiple etl jobs. <br>
 The last things you need in such a situation are data validations and sorts of triggers. <br>
-My scripts are deactivating most of that stuff, keep note of what was active, and let you easy switch all back on after the load. <br>
+My scripts step 1&2 are deactivating most of that stuff and keep note of what was active. <br>
+When you're done with the load, execute step 3 to easily switch back on all elements. <br>
 The below shown method works with **validation rules**, **process builder** and **workflow rules**. <br>
 *Apex triggers* wont work unfortunately as they can't be updated by the **tooling api**. <br> 
 <br>
 **Method:** <br>
-* STEP1: Query vr, pb or wfr via **tooling api** -> store their metadedata in cases. <br>
-* STEP2: Loop through those cases, switch active elements off via **tooling api**. <br>
-* STEP3: Loop again through those cases, switch prior activated elements back on via **tooling api**. <br>
+* STEP1: Query vr, pb or wfr via **tooling api** -> store their meta data in **cases**. <br>
+* STEP2: Loop through those **cases**, switch active elements **off** via **tooling api**. <br>
+* STEP3: Loop again through those **cases**, switch prior activated elements back **on** via **tooling api**. <br>
 
 **Start** and **End** of each step are marked within the scripts. <br>
 Execute them one-by-one when they are needed. <br>
