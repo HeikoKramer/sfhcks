@@ -4,20 +4,23 @@ Likely it will mostly contain anonymous Apex scripts, but let's see where this i
 I have an other Salesforce related repo for the [command line stuff](https://github.com/HeikoKramer/sfdx) <br>
 
 ## ON / OFF Switches
-The purpose for my [on-/off switch scripts](https://github.com/HeikoKramer/sfhcks/tree/master/OnOffSwitches) was a data load intense full sandbox replacement project I have participated in. <br> 
-The last things you need when loading a production backup into a partial sandbox via multiple etl jobs are validations and triggers. <br>
-My scripts saved me from deactivating all that stuff manually, keep note of what was active, and manual activation after the load. <br>
+The purpose of my [on-/off switch scripts](https://github.com/HeikoKramer/sfhcks/tree/master/OnOffSwitches) was a full sandbox replacement project. <br> 
+We basically loaded production org backup into a partial sandbox via multiple etl jobs. <br>
+The last things you need in such a situation are data validations and sorts of triggers. <br>
+My scripts are deactivating most of that stuff, keep note of what was active, and let you easy switch all back on after the load. <br>
 The below shown method works with **validation rules**, **process builder** and **workflow rules**. <br>
-It could probably quickly be adopted for **flows**, but wont unfortunately work with *Apex triggers*. <br> 
+*Apex triggers* wont work unfortunately as they can't be updated by the **tooling api**. <br> 
 <br>
 **Method:** <br>
 * STEP1: Query vr, pb or wfr via **tooling api** -> store their metadedata in cases. <br>
 * STEP2: Loop through those cases, switch active elements off via **tooling api**. <br>
 * STEP3: Loop again through those cases, switch prior activated elements back on via **tooling api**. <br>
 
-Each STEP is marked in the script. Execute them one-by-one. <br>
+**Start** and **End** of each step are marked within the scripts. <br>
+Execute them one-by-one when they are needed. <br>
 **NOTE:** You could run into troubles if you've active trigger, routing or validation logic set on the case object. <br>
 If you have a lot of rules in your org you might hit api call limits. <br> 
+I believe if you have more than 100 elements (total, active + inactive) some script refactoring would be required. <br>
 <br>
 **Direct links to ON/OFF switch for element:** <br>
 [Process Builder](https://github.com/HeikoKramer/sfhcks/blob/master/OnOffSwitches/ProcessBuilderOnOff) <br>
