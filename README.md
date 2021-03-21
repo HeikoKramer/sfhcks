@@ -47,6 +47,7 @@ String targetUserId = ''; // <-- Place Id of user WITHOUT permissions here (only
 The script queries all permission set assignments of the source user …
 and adds those which are missing to the source user. <br>
 It is currently written to take only one source and one target user. This could easily be upgraded. <br>
+<br>
 
 ## ObjectNameAndLabel
 This sends you an email with api names & labels of all objects in your org. 
@@ -60,12 +61,8 @@ The script comes with a plain text and a html version. <br>
 I have used the html version as a quick way to get that data in a table format. <br>
 Just copy the mail body into a text editor >> save as .html file >> open in browser <br>  
 From there, copy it into Excel or wherever you need it. <br>
+<br>
 
-
-## ~/EmailAlertRecipients.cls
-Had to find all Email Alerts which where sending mails to a certain public group.  
-Wrote this Anonymous Apex to find a recipent in alert metadata using Tooling API.
-
-### How to execute 
-Just specify your recipient in line 23 and fire >> results in the debug log
-![recipient](https://github.com/HeikoKramer/sfhcks/blob/master/img/recipient.png)
+## EmailAlertRecipients
+Had to find all email alerts which where sending mails to a certain public group.  
+Wrote this anonymous apex script to find a recipent with help of the **tooling api**.
