@@ -27,19 +27,22 @@ I believe if you have more than 100 elements (total, active + inactive) some scr
 [Process Builder](https://github.com/HeikoKramer/sfhcks/blob/master/OnOffSwitches/ProcessBuilderOnOff) <br>
 [Validation Rules](https://github.com/HeikoKramer/sfhcks/blob/master/OnOffSwitches/ValidationRuleOnOff) <br>
 [Workflow Rules](https://github.com/HeikoKramer/sfhcks/blob/master/OnOffSwitches/WorkflowRuleOnOff) <br>
-
-<br>
 <br>
 
-----
-*old readme will fade out, I'm refactoring …* <br>
+## PermissionSetAssignment
+[PermissionSetAssignment](https://github.com/HeikoKramer/sfhcks/blob/main/PermissionSetAssignment) assignes Permission Sets from one user to an other. <br> 
+Just place source and target user IDs in the script and execute anonymous. <br>
 
+```java
+String sourceUserId = ''; // <-- Place Id of user WITH permissions here (active or inactive user)
+String targetUserId = ''; // <-- Place Id of user WITHOUT permissions here (only active user)
+```
 
-## ~/PermissionSetAssignment.cls (work in progress)
-Place source and target user IDs and execute anonymous to assigne Permission Sets from one User to an other.
-![PermissionSetAssignment](https://github.com/HeikoKramer/sfhcks/blob/master/img/psa.png)
+The script queries all permission set assignments of the source user …
+and adds those which are missing to the source user. <br>
+It is currently written to take only one source and one target user. This could easily be upgraded. <br>
 
-## ~/ObjectNameAndLabel.cls
+## ~/ObjectNameAndLabel
 This sends you an email with API Names & Labels of those org's objects. 
 Replace that variable with your mail address:  
 ![mail](https://github.com/HeikoKramer/sfhcks/blob/master/img/mail.png)
