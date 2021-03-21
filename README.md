@@ -19,6 +19,12 @@ The below shown method works with **validation rules**, **process builder** and 
 
 **Start** and **End** of each step are marked within the scripts. <br>
 Execute them one-by-one when they are needed. <br>
+
+```java
+// START STEP 1 -> "QUERY FLOW DEFINITIONS, STORE FD DATA"
+// END STEP 1
+```
+
 **NOTE:** You could run into troubles if you've active trigger, routing or validation logic set on the case object. <br>
 If you have a lot of rules in your org you might hit api call limits. <br> 
 I believe if you have more than 100 elements (total, active + inactive) some script refactoring would be required. <br>
@@ -42,21 +48,19 @@ The script queries all permission set assignments of the source user …
 and adds those which are missing to the source user. <br>
 It is currently written to take only one source and one target user. This could easily be upgraded. <br>
 
-## ~/ObjectNameAndLabel
-This sends you an email with API Names & Labels of those org's objects. 
-Replace that variable with your mail address:  
-![mail](https://github.com/HeikoKramer/sfhcks/blob/master/img/mail.png)
+## ObjectNameAndLabel
+This sends you an email with api names & labels of all objects in your org. 
+Replace the email address variable in the script with your recipients:  
 
-### HTML Version
-Quick way to get table format  >> it will send you those values tagged as html table.  
-Copy mail body into texteditor >> save as .html file >> open in browser  
-Then copy it into Excel or wherever you need it.    
-![html](https://github.com/HeikoKramer/sfhcks/blob/master/img/html.png)
+```java
+String emailRecipients = 'some.name@some-domain.com'; // <-- PLACE RECIPIENT(S) HERE
+```
 
-### Plain Text Version
-If you just need a quick overview on those org's object names and labels.
-This will send you a text-list of those Names & Labels readable from your mail client.
-![plain](https://github.com/HeikoKramer/sfhcks/blob/master/img/plain.png)
+The script comes with a plain text and a html version. <br>
+I have used the html version as a quick way to get that data in a table format. <br>
+Just copy the mail body into a text editor >> save as .html file >> open in browser <br>  
+From there, copy it into Excel or wherever you need it. <br>
+
 
 ## ~/EmailAlertRecipients.cls
 Had to find all Email Alerts which where sending mails to a certain public group.  
