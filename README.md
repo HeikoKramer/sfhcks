@@ -1,8 +1,25 @@
 # Salesforce H@cks
-*stuff I'd like to keep …* 
+This repo is a lose collection of Salesforce stuff I find useful enough to keep. <br>
+Likely it will mostly contain anonymous Apex scripts, but let's see where this is going. <br> 
+I have an other Salesforce related repo for the [command line stuff](https://github.com/HeikoKramer/sfdx) <br>
 
-## ~/MetadataExtractor.cls (work in progress)
-Not sure yet where this leads to. Rough plan is to have some sort of standard procedure to extract metadata information via the Tooling API.
+## ON / OFF Switches
+The purpose for my on-/off switch scripts was a data load intense full sandbox replacement project I have participated in. <br> 
+The last things you need when loading a production backup into a partial sandbox via multiple etl jobs are validations and triggers. <br>
+My scripts saved me from deactivating all that stuff manually, keep note of what was active, and manual activation after the load. <br>
+The below shown method works with **validation rules**, **process builder** and **workflow rules**. <br>
+It could probably quickly be adopted for **flows**, but wont unfortunately work with *Apex triggers*. <br> 
+<br>
+##Method:
+* STEP1: Query vr, pb or wfr via **tooling api** -> store their metadedata in cases. <br>
+* STEP2: Loop through those cases, switch active elements off via **tooling api**. <br>
+* STEP3: Loop again through those cases, switch prior activated elements back on via **tooling api**. <br>
+<br>
+
+
+old readme will fade out, I'm refactoring … <br>
+----
+
 
 ## ~/PermissionSetAssignment.cls (work in progress)
 Place source and target user IDs and execute anonymous to assigne Permission Sets from one User to an other.
