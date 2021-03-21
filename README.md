@@ -4,18 +4,28 @@ Likely it will mostly contain anonymous Apex scripts, but let's see where this i
 I have an other Salesforce related repo for the [command line stuff](https://github.com/HeikoKramer/sfdx) <br>
 
 ## ON / OFF Switches
-The purpose for my on-/off switch scripts was a data load intense full sandbox replacement project I have participated in. <br> 
+The purpose for my [on-/off switch scripts](https://github.com/HeikoKramer/sfhcks/tree/master/OnOffSwitches) was a data load intense full sandbox replacement project I have participated in. <br> 
 The last things you need when loading a production backup into a partial sandbox via multiple etl jobs are validations and triggers. <br>
 My scripts saved me from deactivating all that stuff manually, keep note of what was active, and manual activation after the load. <br>
 The below shown method works with **validation rules**, **process builder** and **workflow rules**. <br>
 It could probably quickly be adopted for **flows**, but wont unfortunately work with *Apex triggers*. <br> 
 <br>
-##Method:
+## Method:
 * STEP1: Query vr, pb or wfr via **tooling api** -> store their metadedata in cases. <br>
 * STEP2: Loop through those cases, switch active elements off via **tooling api**. <br>
 * STEP3: Loop again through those cases, switch prior activated elements back on via **tooling api**. <br>
-<br>
 
+Each STEP is marked in the script. Execute them one-by-one. <br>
+**NOTE:** You could run into troubles if you've active trigger, routing or validation logic set on the case object. <br>
+If you have a lot of rules in your org you might hit api call limits. <br> 
+<br>
+## Direct links to ON/OFF switch for element:
+[Process Builder](https://github.com/HeikoKramer/sfhcks/blob/master/OnOffSwitches/ProcessBuilderOnOff) <br>
+[Validation Rules](https://github.com/HeikoKramer/sfhcks/blob/master/OnOffSwitches/ValidationRuleOnOff) <br>
+[Workflow Rules](https://github.com/HeikoKramer/sfhcks/blob/master/OnOffSwitches/WorkflowRuleOnOff) <br>
+
+<br>
+<br>
 
 old readme will fade out, I'm refactoring … <br>
 ----
